@@ -1,0 +1,122 @@
+Read LP format model from file WARP_First_18.lp
+Reading time = 0.14 seconds
+: 14402 rows, 5024 columns, 65792 nonzeros
+Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (win64)
+Thread count: 20 physical cores, 40 logical processors, using up to 20 threads
+Optimize a model with 14402 rows, 5024 columns and 65792 nonzeros
+Model fingerprint: 0x947a592c
+Variable types: 0 continuous, 5024 integer (5024 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 3e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 2e+01]
+Presolve removed 2304 rows and 2304 columns
+Presolve time: 0.59s
+Presolved: 12098 rows, 2720 columns, 61184 nonzeros
+Variable types: 0 continuous, 2720 integer (2720 binary)
+Found heuristic solution: objective 285.0000000
+Found heuristic solution: objective 268.0000000
+
+Root relaxation: objective 2.200000e+01, 2861 iterations, 1.44 seconds
+Total elapsed time = 11.74s
+Total elapsed time = 15.76s
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   22.00000    0  580  268.00000   22.00000  91.8%     -   17s
+H    0     0                      83.0000000   22.00000  73.5%     -   17s
+H    0     0                      82.0000000   22.00000  73.2%     -   18s
+     0     0   22.00000    0  977   82.00000   22.00000  73.2%     -   20s
+     0     0   22.00000    0 1047   82.00000   22.00000  73.2%     -   22s
+     0     0   22.00000    0  629   82.00000   22.00000  73.2%     -   39s
+     0     0   22.00000    0  932   82.00000   22.00000  73.2%     -   40s
+     0     0   22.00000    0  772   82.00000   22.00000  73.2%     -   61s
+     0     0   22.00000    0  818   82.00000   22.00000  73.2%     -   62s
+     0     0   22.00000    0  819   82.00000   22.00000  73.2%     -   76s
+     0     0   22.00000    0  889   82.00000   22.00000  73.2%     -   77s
+     0     0   22.00000    0  819   82.00000   22.00000  73.2%     -   93s
+     0     0   22.00000    0  688   82.00000   22.00000  73.2%     -  101s
+     0     2   22.00000    0  688   82.00000   22.00000  73.2%     -  119s
+     1     4   22.00000    1  972   82.00000   22.00000  73.2% 14236  120s
+     3     8   22.00000    2 1350   82.00000   22.00000  73.2%  6280  138s
+     7    16   22.00000    3 1407   82.00000   22.00000  73.2%  3985  140s
+    31    52   22.00000    5 1452   82.00000   22.00000  73.2%  2330  147s
+    51    66   22.00000    6 1440   82.00000   22.00000  73.2%  1731  153s
+    71    84   22.00000    6 1378   82.00000   22.00000  73.2%  1654  155s
+    91   104   22.00000    7 1447   82.00000   22.00000  73.2%  1397  162s
+H   94   104                      78.0000000   22.00000  71.8%  1364  162s
+H  106   104                      71.0000000   22.00000  69.0%  1257  162s
+   111   125   22.00000    8 1365   71.00000   22.00000  69.0%  1224  183s
+   134   173   22.00000    8 1426   71.00000   22.00000  69.0%  1318  235s
+H  139   173                      68.0000000   22.00000  67.6%  1283  235s
+H  176   173                      63.0000000   22.00000  65.1%  2019  235s
+H  183   173                      61.0000000   22.00000  63.9%  1960  235s
+
+Interrupt request received
+   192   299   22.00000   10 1050   61.00000   22.00000  63.9%  2209  277s
+
+Cutting planes:
+  Cover: 322
+  Clique: 59
+  MIR: 288
+  StrongCG: 25
+  Inf proof: 1
+  Zero half: 14
+  Mod-K: 4
+  RLT: 136
+
+Explored 376 nodes (745086 simplex iterations) in 278.18 seconds
+Thread count was 20 (of 40 available processors)
+
+Solution count 9: 61 63 68 ... 285
+
+Solve interrupted
+Best objective 6.100000000000e+01, best bound 2.200000000000e+01, gap 63.9344%
+*
+*
+*
+*
+
+[[[0, 6], [0, 14], [0, 22], [0, 28], [1, 14], [1, 26], [2, 2], [2, 26], [3, 2], [3, 16], [5, 4], [5, 22], [6, 12], [6, 24], [7, 4], [7, 10], [7, 18], [7, 24], [8, 18], [8, 30], [9, 6], [9, 12], [9, 24], [9, 26], [10, 4], [10, 6], [10, 8], [10, 16], [11, 0], [11, 2], [11, 8], [11, 12], [11, 14], [11, 22], [11, 26], [12, 2], [12, 6], [12, 10], [12, 14], [12, 16], [12, 24], [12, 26], [12, 28], [13, 2], [13, 8], [13, 16], [13, 18], [13, 28], [14, 4], [14, 12], [14, 16], [14, 20], [14, 26], [15, 6], [15, 12], [15, 22], [16, 0], [16, 14], [17, 0], [17, 6], [17, 26]]]
+*
+*
+*
+*
+
+[[0, 6], [0, 14], [0, 22], [0, 28], [1, 14], [1, 26], [2, 2], [2, 26], [3, 2], [3, 16], [5, 4], [5, 22], [6, 12], [6, 24], [7, 4], [7, 10], [7, 18], [7, 24], [8, 18], [8, 30], [9, 6], [9, 12], [9, 24], [9, 26], [10, 4], [10, 6], [10, 8], [10, 16], [11, 0], [11, 2], [11, 8], [11, 12], [11, 14], [11, 22], [11, 26], [12, 2], [12, 6], [12, 10], [12, 14], [12, 16], [12, 24], [12, 26], [12, 28], [13, 2], [13, 8], [13, 16], [13, 18], [13, 28], [14, 4], [14, 12], [14, 16], [14, 20], [14, 26], [15, 6], [15, 12], [15, 22], [16, 0], [16, 14], [17, 0], [17, 6], [17, 26]]
+Read LP format model from file WARP_Second_18.lp
+Reading time = 0.10 seconds
+: 11226 rows, 6010 columns, 33792 nonzeros
+Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (win64)
+Thread count: 20 physical cores, 40 logical processors, using up to 20 threads
+Optimize a model with 11226 rows, 6010 columns and 33792 nonzeros
+Model fingerprint: 0xa99e338f
+Variable types: 0 continuous, 6010 integer (6010 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+01]
+  Objective range  [2e+00, 3e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 2e+00]
+Presolve removed 9903 rows and 5773 columns
+Presolve time: 0.17s
+Presolved: 1323 rows, 237 columns, 10084 nonzeros
+Variable types: 0 continuous, 237 integer (237 binary)
+Found heuristic solution: objective 167.0000000
+Found heuristic solution: objective 149.0000000
+
+Root relaxation: objective 1.220000e+02, 164 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+H    0     0                     122.0000000  122.00000  0.00%     -    0s
+     0     0  122.00000    0   89  122.00000  122.00000  0.00%     -    0s
+
+Explored 0 nodes (164 simplex iterations) in 0.33 seconds
+Thread count was 20 (of 40 available processors)
+
+Solution count 3: 122 149 167
+
+Optimal solution found (tolerance 1.00e-04)

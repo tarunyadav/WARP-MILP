@@ -111,7 +111,6 @@ f1.close();
 # for inq in ineq_list:
 #     ineq_list_rotated += [inq[1:]+[inq[0]]]
 # ineq_redunction = [0, 8, 136, 317, 357, 367, 532, 556, 584, 753, 803, 828, 929, 979, 1025, 1071, 1125, 1186, 1194, 1222]
-# ineq_redunction = [0, 8, 136, 217, 240, 305, 491, 567, 647, 683, 692, 797, 891, 929, 1115, 1131, 1210, 1215, 1220, 1225]
 # print(len(ineq_redunction))
 # for i in ineq_redunction:
 #     print(ineq_list_rotated[i])

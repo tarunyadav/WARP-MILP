@@ -1,15 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jul 27 18:40:37 2020
-
-@author: tarunyadav
-"""
-
 import sys
 
 filename = sys.argv[1]
-blocksize= int(sys.argv[3]);
+blocksize= 128;
 f1 = open(filename,"r");
 data = f1.readlines()
 data_copy = [a for a in data];

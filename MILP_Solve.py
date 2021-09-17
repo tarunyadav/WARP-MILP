@@ -1,54 +1,55 @@
-#from gurobipy import *
 import gurobipy
-import string
 import sys
 from math import floor
+
+# Inequalties of DDT
 conv = (
-      -1, -1, 0, -1, 0, 0, 1, 0, 2,
--2, -1, -1, -1, 1, -1, 1, -1, 5,
+-1, -1, 0, -1, 0, 0, 1, 0, 2,
 0, 0, 1, 0, -1, -1, 0, -1, 2,
-0, -1, -2, 2, -2, 2, -1, -1, 5,
--2, -2, -1, 3, -1, 3, -2, -1, 6,
-0, 1, 1, 1, 1, -2, -1, -2, 3,
+-1, 3, -2, -1, -2, -2, -1, 3, 6,
+0, -1, 0, -1, 1, 2, 1, 2, 0,
+-2, 2, -2, 1, 3, 3, 1, 2, 0,
+3, 2, 3, 2, -2, -1, 1, -1, 0,
 0, -1, 1, -1, 0, -1, 1, -1, 3,
-1, 1, -1, -2, -2, -2, 1, 2, 5,
-0, 1, -2, -2, 2, 1, 1, -1, 3,
--1, 1, -2, 1, 3, 1, -1, 1, 1,
--2, 3, -1, -2, -1, -1, -2, 3, 6,
-0, -2, -2, 1, 2, -1, 1, 1, 3,
-3, 3, 1, 2, -2, 2, -2, 1, 0,
-3, -2, 2, 1, -1, -2, -2, 1, 4,
-1, -2, -1, 1, -2, 2, 1, -2, 5,
-1, 2, 1, 2, 0, -1, 0, -1, 0,
-1, -2, -1, -2, 2, 3, 1, 3, 1,
-3, 1, 2, -2, -1, 1, -2, -2, 4,
--2, -1, 1, -1, 3, 2, 3, 2, 0,
--1, 2, -1, 2, 0, 1, 2, 1, 0,
+-1, -1, -2, 3, -2, 3, -1, -2, 6,
+0, -2, -1, -2, 0, 1, 2, 1, 3,
+2, -1, 1, 1, 0, -2, -2, 1, 3,
+-1, -2, -2, 1, 3, -2, 2, 1, 4,
+2, 1, 1, -1, 0, 1, -2, -2, 3,
+3, 1, -1, 1, -1, 1, -2, 1, 1,
+-2, 2, 1, -2, 1, -2, -1, 1, 5,
+2, 3, 1, 3, 1, -2, -1, -2, 1,
+0, 1, 2, 1, -1, 2, -1, 2, 0,
+-2, 1, -2, 2, 3, 2, 1, 3, 0,
+-1, 1, -2, -2, 3, 1, 2, -2, 4,
+-2, -2, 1, 2, 1, 1, -1, -2, 5,
 1, -1, -1, -1, 0, -1, -1, -1, 5,
-    )
+0, -1, -1, -1, 1, -1, -1, -1, 5,
+)
 
 
-# new with correct sbox
-convpbl = (0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 1,
+# Inequalties of DDT with probability varaibles
+convpbl = (
+0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 1,
 0, -1, 0, -1, 0, -1, 0, -1, 4, 3, 0,
 0, 0, 0, 0, 0, 1, -1, 1, 1, 0, 0,
--1, -1, 1, 2, 0, 0, -1, -2, 3, 4, 0,
-0, -3, -2, -3, 0, 1, 2, 1, 6, 5, 0,
-0, 2, -2, -2, -3, -1, -1, 2, 6, 7, 0,
-7, 4, 2, -2, -1, 4, -5, -8, 7, 10, 0,
--4, 3, -1, -2, -1, -3, -2, 3, 8, 10, 0,
-1, 5, 2, 0, 2, -1, -2, -4, 2, 5, 0,
-0, 1, -3, 2, 1, 0, -1, 2, 3, 1, 0,
--4, -2, 1, -2, 2, 1, 5, 1, 1, 4, 0,
-0, 2, 3, -1, -2, -1, 0, -1, 1, 4, 0,
+-1, 3, -2, -1, -2, -2, -1, 3, 6, 6, 0,
+0, 1, -2, 1, 0, 1, -2, 1, 4, 1, 0,
+3, 1, 2, -2, 0, 1, -3, -2, 5, 4, 0,
+-2, 4, 3, -2, -1, -3, -2, -1, 6, 8, 0,
+1, 2, 0, 2, 0, 1, 0, 1, -1, -2, 0,
+3, 1, -1, 1, 0, -2, -1, -2, 3, 5, 0,
+3, -2, 2, 1, 0, -2, -3, 1, 5, 4, 0,
+-2, -2, 3, 4, -1, -1, -2, -3, 6, 8, 0,
+3, 2, 6, 2, -2, -1, 1, -1, -3, 0, 0,
+-2, 2, -1, 2, 5, -1, -5, -1, 5, 8, 0,
 0, 1, -1, 1, 1, -1, 1, -1, 3, 1, 0,
-7, -2, 2, 4, -1, -8, -5, 4, 7, 10, 0,
-2, 1, 5, 1, -4, -2, 1, -2, 1, 4, 0,
-1, 2, 0, 2, 1, 2, 0, 2, -2, -3, 0,
--2, 2, -4, -4, 5, 2, 1, -1, 5, 8, 0,
-0, 1, -3, 2, -1, 2, -1, -1, 5, 3, 0,
--2, -4, -1, 2, -1, 2, 3, -1, 3, 8, 0,
-2, -4, -2, -1, 1, -1, -2, 2, 6, 10, 0,
+-5, -2, 1, -3, 2, 5, 6, -3, 2, 9, 0,
+-5, -3, 1, -2, 2, -3, 6, 5, 2, 9, 0,
+2, -1, -2, -4, 1, 5, 2, 0, 2, 5, 0,
+2, -5, -2, -1, 1, -1, 2, 6, 3, 7, 0,
+0, -1, 0, -1, 1, 2, 3, 2, -2, 0, 0,
+-1, -1, -2, 3, -2, 3, -1, -2, 6, 6, 0,
 )
 
 P_U = (
@@ -58,8 +59,8 @@ P_V = (
       10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
     )
 ROUND = int(sys.argv[1])#7
-#act = [3, 5, 6, 7, 7, 8, 9, 12, 15, 20, 30, 40, 73, 40, 47, 52, 57, 61, 66]
-act =  [6, 6, 6, 6, 2, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6]
+act = [3, 5, 6, 7, 7, 8, 9, 12, 15, 20, 30, 40, 73, 40, 47, 52, 57, 61, 66]
+#act =  [6, 6, 6, 6, 2, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6]
 act_total = int(sys.argv[2])
 FindList = []
 if (sys.argv[3] == "fix"):
@@ -76,18 +77,18 @@ fix_bit = [];
 for diff_1 in fix_diff_bin:
     fix_bit.append([len(diff_1)-1-i for i in range(0,len(diff_1)) if diff_1[i]=="1" ])
     
-def PrintOuter(FindList,BanList):
-    opOuter = open("128_Outer_"+str(ROUND)+".lp",'w+')
-    opOuter.write("Minimize\n")
+def PrintFirst(FindList,BanList):
+    MILPFirst = open("WARP_First_"+str(ROUND)+".lp",'w+')
+    MILPFirst.write("Minimize\n")
     buf = ''
     for i in range(0,ROUND):
         for j in range(0,32,2):
             buf = buf + "a" + str(i) + "_" + str(j)
             if i != ROUND-1 or j != 30:
                 buf = buf + " + "
-    opOuter.write(buf)
-    opOuter.write('\n')
-    opOuter.write("Subject to\n")
+    MILPFirst.write(buf)
+    MILPFirst.write('\n')
+    MILPFirst.write("Subject to\n")
     ##################
     if (fix==True):
         for b in range(0,len(fix_bit)):
@@ -105,7 +106,7 @@ def PrintOuter(FindList,BanList):
                             buf = buf + "a" + str(fix_pos[b]) + "_" + str(j) + " = 1\n"
                         else:
                             buf = buf + "a" + str(fix_pos[b]) + "_" + str(j) + " = 0\n"
-            opOuter.write(buf)
+            MILPFirst.write(buf)
     #################
     ##################
     if (fix==True):
@@ -116,7 +117,7 @@ def PrintOuter(FindList,BanList):
                     buf = buf + "x" + str(fix_pos[b]) + "_" + str(j) + " = 1\n"
                 else:
                     buf = buf + "x" + str(fix_pos[b]) + "_" + str(j) + " = 0\n"
-            opOuter.write(buf)
+            MILPFirst.write(buf)
     #################
     #######Fix active sbox for 1st round#############
     
@@ -130,13 +131,13 @@ def PrintOuter(FindList,BanList):
     #             buf = buf + " = "
     
     # buf = buf + str(act[0]) + "\n"
-    # opOuter.write(buf)
+    # MILPFirst.write(buf)
 	###############
     ################Fix In and Out###############
     # buf = ''
     # for j in range(0,128):
     #     buf = buf + "x" + str(0) + "_" + str(j) + " - x"+ str(ROUND) + "_" + str(j) +" = 0 \n"
-    # opOuter.write(buf)
+    # MILPFirst.write(buf)
     ################Fix In and Out###############
     buf = ''
     for i in range(0,ROUND):
@@ -182,7 +183,7 @@ def PrintOuter(FindList,BanList):
                     if conv[9*k+l] == 0:
                         if l == 8:
                             buf = buf + " >= " + str(conv[9*k+l]) + "\n"
-            opOuter.write(buf)
+            MILPFirst.write(buf)
                  
     buf = ''
     if len(FindList) == 0:
@@ -210,7 +211,7 @@ def PrintOuter(FindList,BanList):
             else:
                 buf = buf + "x0_" + str(i) + " = 0\n"
             fl.pop()
-    opOuter.write(buf)
+    MILPFirst.write(buf)
 
     buf = ''
     for i in range(0,ROUND):
@@ -222,37 +223,37 @@ def PrintOuter(FindList,BanList):
                 buf = buf + " >= "
     
     buf = buf + str(act_total) + "\n"
-    opOuter.write(buf)
+    MILPFirst.write(buf)
 
-    opOuter.write("Binary\n")
+    MILPFirst.write("Binary\n")
     buf = ''
     for i in range(0,ROUND):
         buf = ''
         for j in range(0,32,2):
             buf = buf + "a" + str(i) + "_" + str(j) + "\n"
-        opOuter.write(buf)
+        MILPFirst.write(buf)
     for i in range(0,ROUND+1): ######################ROUND+1 for final charactertistics
         buf = ''
         for j in range(0,128):
             buf = buf + "x" + str(i) + "_" + str(j) + "\n"
-        opOuter.write(buf)
+        MILPFirst.write(buf)
     for i in range(0,ROUND):
         buf = ''
         for j in range(0,64):
             buf = buf + "u" + str(i) + "_" + str(j) + "\n"
-        opOuter.write(buf)
+        MILPFirst.write(buf)
     for i in range(0,ROUND):
         buf = ''
         for j in range(0,64):
             buf = buf + "v" + str(i) + "_" + str(j) + "\n"
-        opOuter.write(buf)
+        MILPFirst.write(buf)
 	
-    opOuter.close()
+    MILPFirst.close()
 
 
-def PrintInner(SolveList,ftl):
-    opInner = open("128_Inner_"+str(ROUND)+".lp","w+")
-    opInner.write("Minimize\n")
+def PrintSecond(SolveList,ftl):
+    MILPSecond = open("WARP_Second_"+str(ROUND)+".lp","w+")
+    MILPSecond.write("Minimize\n")
     buf = ''
     
     for i in range(0,len(SolveList)):
@@ -261,8 +262,8 @@ def PrintInner(SolveList,ftl):
             buf = buf + " + "
         else:
             buf = buf + "\n"
-    opInner.write(buf)
-    opInner.write("Subject to\n")
+    MILPSecond.write(buf)
+    MILPSecond.write("Subject to\n")
      ##################
     if (fix==True):
         for b in range(0,len(fix_bit)):
@@ -272,13 +273,13 @@ def PrintInner(SolveList,ftl):
                     buf = buf + "x" + str(fix_pos[b]) + "_" + str(j) + " = 1\n"
                 else:
                     buf = buf + "x" + str(fix_pos[b]) + "_" + str(j) + " = 0\n"
-            opInner.write(buf)
+            MILPSecond.write(buf)
     #################
     ################Fix In and Out###############
     # buf = ''
     # for j in range(0,128):
     #     buf = buf + "x" + str(0) + "_" + str(j) + " - x"+ str(ROUND) + "_" + str(j) +" = 0 \n"
-    # opInner.write(buf)
+    # MILPSecond.write(buf)
     ################Fix In and Out###############
     buf = ''
     for i in range(0,len(SolveList)):
@@ -300,7 +301,7 @@ def PrintInner(SolveList,ftl):
         for k in range(0,4):
             buf = buf + " - x" + str(SolveList[i][0]) + "_" + str(4*SolveList[i][1]+k)
         buf = buf + " >= 0\n"
-        opInner.write(buf)
+        MILPSecond.write(buf)
     
         buf = ''
         for k in range(0,20):
@@ -327,7 +328,7 @@ def PrintInner(SolveList,ftl):
                     if l == 10:
                         buf = buf + " >= " + str(convpbl[11*k+l]) + "\n"
 
-        opInner.write(buf)
+        MILPSecond.write(buf)
     
     buf = ''
     sl = []
@@ -355,7 +356,7 @@ def PrintInner(SolveList,ftl):
                 buf = buf + "- 1 u" + str(i) + "_" + str(4*int(j/2) + k) + " + v" + str(i) + "_" + str(4*int(j/2) + k) + " + x" + str(i+1) + "_" + str(4*j + k)  + " >= 0"+ "\n"
                 buf = buf + "u" + str(i) + "_" + str(4*int(j/2) + k) + " + v" + str(i) + "_" + str(4*int(j/2) + k) + " + x" + str(i+1) + "_" + str(4*j + k)  + " <= 2"+ "\n"
 
-        opInner.write(buf)
+        MILPSecond.write(buf)
 
    
     buf = ''
@@ -364,7 +365,7 @@ def PrintInner(SolveList,ftl):
             if i[0] == 0:
                 buf = buf + "x0_" + str(4*i[1]) + " + x0_" + str(4*i[1]+1) + " + x0_" + str(4*i[1]+2) + " + x0_" + str(4*i[1]+3)
                 buf = buf + " >= 1\n"
-        opInner.write(buf)
+        MILPSecond.write(buf)
     else:
         fl = []
 
@@ -375,10 +376,10 @@ def PrintInner(SolveList,ftl):
             else:
                 buf = buf + "x0_" + str(i) + " = 0\n"
             fl.pop()
-        opInner.write(buf)
+        MILPSecond.write(buf)
     
 
-    opInner.write("Binary\n")
+    MILPSecond.write("Binary\n")
     buf = ''
     for i in range(0,ROUND):
         buf = ''
@@ -391,18 +392,18 @@ def PrintInner(SolveList,ftl):
             buf = buf + "u" + str(i) + "_" + str(j) + "\n"
         for j in range(0,64):
             buf = buf + "v" + str(i) + "_" + str(j) + "\n"
-        opInner.write(buf)
+        MILPSecond.write(buf)
     buf = ''
     for j in range(0,128):
         buf = buf + "x" + str(ROUND) + "_" + str(j) + "\n"
-    opInner.write(buf)
+    MILPSecond.write(buf)
     buf = ''
     for i in range(0,len(SolveList)):
         buf = buf + "z" + str(SolveList[i][0]) + "_" + str(SolveList[i][1]) + "_0\n"
         buf = buf + "z" + str(SolveList[i][0]) + "_" + str(SolveList[i][1]) + "_1\n"
-        opInner.write(buf)
+        MILPSecond.write(buf)
         buf = ''
-    opInner.close()
+    MILPSecond.close()
 
 def strtoint(s):
     reg = 0
@@ -449,7 +450,7 @@ ftlstring = []
 BanList = []
 bl = []
 blstring = []
-filename = "128_Result_" + str(ROUND) + ".txt"
+filename = "WARP_Result_" + str(ROUND) + ".txt"
 opResult = open(filename,'w+')
 #############FIX Active S-Box##################
 # #bl = [[0, 0], [0, 2], [1, 0], [1, 8], [2, 4], [2, 6], [3, 1], [3, 9], [4, 0], [4, 2], [5, 0], [5, 8], [6, 4], [6, 6], [7, 1], [7, 9], [8, 0], [8, 2], [9, 0], [9, 8], [10, 4], [10, 6],[11,0],[11,1],[11,2],[11,3],[11,4],[11,5],[11,6],[11,7],[11,8],[11,9],[11,10],[11,11],[11,12],[11,13],[11,14],[11,15]];
@@ -488,12 +489,12 @@ while True:
     bl = []
     opResult.write("*\n*\n*\n")
     while True:
-        PrintOuter(ftl,BanList)
+        PrintFirst(ftl,BanList)
         count = count + 1
         
         if count == 15:
             break
-        o = gurobipy.read("128_Outer_"+str(ROUND)+".lp")
+        o = gurobipy.read("WARP_First_"+str(ROUND)+".lp")
         o.optimize()
         #o.write("128_Outer_"+str(ROUND)+".sol")
         #sys.exit()
@@ -516,21 +517,14 @@ while True:
                     print("*\n*\n*\n*\n")
                 
                 print(fsl)
-                PrintInner(fsl,ftl)
+                PrintSecond(fsl,ftl)
                 ftl = []
-                i = gurobipy.read("128_Inner_"+str(ROUND)+".lp")
+                i = gurobipy.read("WARP_Second_"+str(ROUND)+".lp")
                 i.optimize()
                 if i.getObjective().getValue() > 135:
                     break
                 buf = ''
                 buf = buf + str(fsl) + " " + str(i.getObjective().getValue()) + "\n"
-                '''
-                if i.getObjective().getValue() < 30:
-                    resreg = i.getObjective().getValue()
-                    ot = open("mini.txt","w+")
-                    ot.write(str(resreg))
-                    ot.close()
-                '''
                 ftlstring = []
                 for v in i.getVars():
                     if v.x == 1:
@@ -546,8 +540,6 @@ while True:
     
             else:
                 break
-                #count = count + 1
-                #ftl = []
         except:
             break
             continue;

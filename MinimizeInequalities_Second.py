@@ -23,8 +23,8 @@ def print_Diff_sage(table):
             else:
                 print(table[row][col],end=' , ');
    
- 
-s_box = ((0xc,0xa, 0xd,0x3, 0xe,0xb, 0xf, 0x7, 0x8, 0x9, 0x1, 0x5, 0x0, 0x2, 0x4, 0x6),);             
+  
+s_box = ((0xc,0xa, 0xd,0x3, 0xe,0xb, 0xf, 0x7, 0x8, 0x9, 0x1, 0x5, 0x0, 0x2, 0x4, 0x6),);
            
 
 DDT_SIZE = (len(s_box),len(s_box[0]))
@@ -46,20 +46,36 @@ for p1 in range(DDT_SIZE[1]):
 diff_arr = []
 impossible_diff_arr=[]
 for row in range(len(DDT)):
-        row_hex = bin(row)[2:].zfill(4);
-        row_arr = [int(i) for i in row_hex];
+        row_bin = bin(row)[2:].zfill(4);
+        row_arr = [int(i) for i in row_bin];
         for col in range(len(DDT[row])):
-            col_hex = bin(col)[2:].zfill(4);
-            col_arr = [int(i) for i in col_hex];
+            col_bin = bin(col)[2:].zfill(4);
+            col_arr = [int(i) for i in col_bin];
             if(DDT[row][col]!=0):
-                diff_arr += [row_arr+col_arr];
+                #DDT_bin = bin(DDT[row][col])[2:].zfill(3);
+                if (DDT[row][col] == 16):
+                    DDT_bin = '00';
+                elif (DDT[row][col] == 4):
+                    DDT_bin = '01';
+                elif (DDT[row][col] == 2):
+                    DDT_bin = '10';
+                int_DDT_bin = int(DDT_bin,2);
+                DDT_arr = [int(i) for i in DDT_bin];
+                diff_arr += [row_arr+col_arr+DDT_arr[::-1]];
+                for k in range(0,4):
+                    if (k!=int_DDT_bin):
+                        im_bin = bin(k)[2:].zfill(2);
+                        im_arr = [int(i) for i in im_bin];
+                        impossible_diff_arr += [row_arr+col_arr+im_arr[::-1]];
             else:
-                impossible_diff_arr += [row_arr+col_arr];
-
+                for k in range(0,4):
+                        im_bin = bin(k)[2:].zfill(2);
+                        im_arr = [int(i) for i in im_bin];
+                        impossible_diff_arr += [row_arr+col_arr+im_arr[::-1]];
 poly_test = Polyhedron( vertices = diff_arr)
 ineq_list = poly_test.inequalities_list();
 #######Optional: if user want to print all the inequalities###########################
-print(ineq_list)
+#print(ineq_list);
 ineq_fail_index = [];
 ineq_fail_count = [0]*len(ineq_list);
 lp_string=[]
@@ -84,7 +100,8 @@ lp_string += ["\n"];
 lp_string += ["Binary"];
 for i in range(0,len(ineq_list)):
     lp_string += ["z"+str(i)];
-f1 = open("MinimizeInequality_First.lp","w");
+print(len(lp_string));
+f1 = open("MinimizeInequalities_Second.lp","w");
 for a in lp_string:
     f1.write(a+"\n");
 f1.close();
@@ -93,8 +110,8 @@ f1.close();
 # ineq_list_rotated = [];
 # for inq in ineq_list:
 #     ineq_list_rotated += [inq[1:]+[inq[0]]]
-# #print(ineq_list_rotated[0:2])
-# ineq_redunction = [4, 9, 11, 59, 80, 88, 92, 96, 110, 118, 131, 136, 137, 141, 148, 151, 160, 183, 186, 224, 237]
+# ineq_redunction = [0, 8, 136, 317, 357, 367, 532, 556, 584, 753, 803, 828, 929, 979, 1025, 1071, 1125, 1186, 1194, 1222]
+# ineq_redunction = [0, 8, 136, 217, 240, 305, 491, 567, 647, 683, 692, 797, 891, 929, 1115, 1131, 1210, 1215, 1220, 1225]
 # print(len(ineq_redunction))
 # for i in ineq_redunction:
 #     print(ineq_list_rotated[i])

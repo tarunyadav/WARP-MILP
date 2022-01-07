@@ -2,7 +2,7 @@
 MILP Based Differential Characteristics Search for Block Cipher WARP (https://link.springer.com/chapter/10.1007/978-3-030-81652-0_21) \
 
 ## Source Code
-### There are 12 files in this source code.
+### There are 14 files in this source code.
 * _MinimizeInequality_First.py_
 * _MinimizeInequality_Second.py_
 * _MinimizeInequality_First.lp_
@@ -13,7 +13,9 @@ MILP Based Differential Characteristics Search for Block Cipher WARP (https://li
 * _Linear_Inequalities.txt_
 * _MILP_Solve.py_
 * _print_diff_characteristic.py_
+* _print_diff_characteristic_permuted.py_
 * _WARP_GUROBI_Output.txt_
+* _WARP_Result_18.txt_
 * _README.md_
 
 ## Generation of Linear Inequalities
@@ -102,6 +104,8 @@ The input difference of the round 18 is:
 0000  0000  0000  0000  0101  0000  0000  0000  0000  0000  0000  1010  0000  0000  0000  0111  0000  0000  0000  0000  0000  0000  0000  1101  1010  0111  0000  0000  0000  1101  1101  0000  :: Hex => 0000  5000  000a  0007  0000  000d  a700  0dd0   :: 0x00005000000a00070000000da7000dd0 :: Probability => 2^{-6} :: No. of Active S-Box => 3
 
 ```
+* While printing the differential characteristic initial permutation is omitted because it does not effect the attack complexity. To get the differential characteristics wth initial permutation, _print_diff_characteristic_permuted.py_ can be used.
+
 ## Acknowledgement 
 1. https://github.com/zhuby12/MILP-basedModel
 
